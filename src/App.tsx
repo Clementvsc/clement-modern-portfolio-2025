@@ -2,6 +2,9 @@ import React from "react";
 import { motion } from "framer-motion";
 import { FaGithub, FaLinkedin, FaEnvelope, FaReact, FaNodeJs, FaPython, FaDocker } from "react-icons/fa";
 import { SiTypescript, SiTailwindcss, SiNextdotjs, SiPostgresql, SiMongodb, SiAmazonaws, SiGraphql, SiFramer } from "react-icons/si";
+import * as FaIcons from "react-icons/fa";
+import * as SiIcons from "react-icons/si";
+
 
 const socialLinks = [
   { href: "mailto:youremail@example.com", icon: <FaEnvelope />, label: "Email" },
@@ -10,19 +13,20 @@ const socialLinks = [
 ];
 
 const skills = [
-  { label: "React", icon: () => <FaReact color="#60DAFB" size={30} /> },
-  { label: "TypeScript", icon: () => <SiTypescript color="#3178c6" size={30} /> },
-  { label: "Next.js", icon: () => <SiNextdotjs color="#000" size={30} /> },
-  { label: "Node.js", icon: () => <FaNodeJs color="#509941" size={30} /> },
-  { label: "Python", icon: () => <FaPython color="#3776ab" size={30} /> },
-  { label: "MongoDB", icon: () => <SiMongodb color="#47A248" size={30} /> },
-  { label: "PostgreSQL", icon: () => <SiPostgresql color="#336791" size={30} /> },
-  { label: "AWS", icon: () => <SiAmazonaws color="#ff9900" size={30} /> },
-  { label: "Docker", icon: () => <FaDocker color="#0db7ed" size={30} /> },
-  { label: "GraphQL", icon: () => <SiGraphql color="#e535ab" size={30} /> },
-  { label: "TailwindCSS", icon: () => <SiTailwindcss color="#36B7F0" size={30} /> },
-  { label: "Framer Motion", icon: () => <SiFramer color="#F56CAC" size={30} /> },
+  { label: "React",        iconLib: "fa", iconName: "FaReact",        color: "#60DAFB" },
+  { label: "TypeScript",   iconLib: "si", iconName: "SiTypescript",   color: "#3178c6" },
+  { label: "Next.js",      iconLib: "si", iconName: "SiNextdotjs",    color: "#000"    },
+  { label: "Node.js",      iconLib: "fa", iconName: "FaNodeJs",       color: "#509941" },
+  { label: "Python",       iconLib: "fa", iconName: "FaPython",       color: "#3776ab" },
+  { label: "MongoDB",      iconLib: "si", iconName: "SiMongodb",      color: "#47A248" },
+  { label: "PostgreSQL",   iconLib: "si", iconName: "SiPostgresql",   color: "#336791" },
+  { label: "AWS",          iconLib: "si", iconName: "SiAmazonaws",    color: "#ff9900" },
+  { label: "Docker",       iconLib: "fa", iconName: "FaDocker",       color: "#0db7ed" },
+  { label: "GraphQL",      iconLib: "si", iconName: "SiGraphql",      color: "#e535ab" },
+  { label: "TailwindCSS",  iconLib: "si", iconName: "SiTailwindcss",  color: "#36B7F0" },
+  { label: "Framer Motion",iconLib: "si", iconName: "SiFramer",       color: "#F56CAC" },
 ];
+
 
 const projects = [
   {
