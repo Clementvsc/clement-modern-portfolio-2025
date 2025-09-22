@@ -3,6 +3,36 @@ import { motion } from "framer-motion";
 import * as FaIcons from "react-icons/fa";
 import * as SiIcons from "react-icons/si";
 
+// Animated gradient mesh components
+const GradientMesh = ({ className = "", id }: { className?: string; id: string }) => (
+  <svg
+    className={`absolute inset-0 -z-10 h-full w-full ${className}`}
+    viewBox="0 0 800 600"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden
+  >
+    <defs>
+      <radialGradient id={`${id}-g1`} cx="20%" cy="10%" r="60%">
+        <stop offset="0%" stopColor="#60DAFB" stopOpacity="0.9" />
+        <stop offset="100%" stopColor="#60DAFB" stopOpacity="0" />
+      </radialGradient>
+      <radialGradient id={`${id}-g2`} cx="80%" cy="20%" r="60%">
+        <stop offset="0%" stopColor="#F56CAC" stopOpacity="0.8" />
+        <stop offset="100%" stopColor="#F56CAC" stopOpacity="0" />
+      </radialGradient>
+      <radialGradient id={`${id}-g3`} cx="50%" cy="90%" r="70%">
+        <stop offset="0%" stopColor="#36B7F0" stopOpacity="0.8" />
+        <stop offset="100%" stopColor="#36B7F0" stopOpacity="0" />
+      </radialGradient>
+    </defs>
+
+    <motion.circle cx="150" cy="120" r="240" fill={`url(#${id}-g1)`} animate={{ cx: [130, 170, 150], cy: [110, 140, 120] }} transition={{ duration: 16, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" }} />
+    <motion.circle cx="650" cy="160" r="260" fill={`url(#${id}-g2)`} animate={{ cx: [630, 680, 650], cy: [180, 140, 160] }} transition={{ duration: 20, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" }} />
+    <motion.circle cx="400" cy="520" r="300" fill={`url(#${id}-g3)`} animate={{ cx: [420, 380, 400], cy: [540, 500, 520] }} transition={{ duration: 18, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" }} />
+  </svg>
+);
+
+// Data
 const skills = [
   { label: "React", iconLib: "fa", iconName: "FaReact", color: "#60DAFB" },
   { label: "TypeScript", iconLib: "si", iconName: "SiTypescript", color: "#3178c6" },
@@ -16,7 +46,7 @@ const skills = [
   { label: "GraphQL", iconLib: "si", iconName: "SiGraphql", color: "#e535ab" },
   { label: "TailwindCSS", iconLib: "si", iconName: "SiTailwindcss", color: "#36B7F0" },
   { label: "Framer Motion", iconLib: "si", iconName: "SiFramer", color: "#F56CAC" },
-];
+] as const;
 
 const socialLinks = [
   { href: "mailto:youremail@example.com", icon: <FaIcons.FaEnvelope />, label: "Email" },
@@ -29,146 +59,132 @@ const projects = [
     title: "E-Commerce Platform",
     desc: "Modern e-commerce SPA (React, Stripe) with payments and dashboard.",
     tech: ["React", "Node.js", "MongoDB", "Stripe"],
-    img: "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?w=450&q=80",
-    gh: "#", live: "#"
+    img: "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?w=800&q=80",
+    gh: "#",
+    live: "#",
   },
   {
     title: "Chat App",
-    desc: "Socket.io real-time chat with team collaboration and AI bot demo.",
-    tech: ["Next.js", "OpenAI", "Socket.io"],
-    img: "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?w=450&q=80",
-    gh: "#", live: "#"
-  },
-  {
-    title: "Analytics Dashboard",
-    desc: "Interactive analytics dashboard with real-time data and custom D3.js charts.",
-    tech: ["React", "D3.js", "Express"],
-    img: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=450&q=80",
-    gh: "#", live: "#"
+    desc: "Realtime chat with websockets, groups, and file sharing.",
+    tech: ["Next.js", "TypeScript", "PostgreSQL", "WebSocket"],
+    img: "https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?w=800&q=80",
+    gh: "#",
+    live: "#",
   },
 ];
 
+// Helpers
+const iconFromSkill = (s: (typeof skills)[number]) => {
+  const lib = s.iconLib === "fa" ? FaIcons : SiIcons;
+  // @ts-ignore
+  const Comp = lib[s.iconName] as React.ComponentType<{ color?: string; className?: string }>;
+  return <Comp className="text-3xl" color={s.color} />;
+};
+
+const sectionVariants = {
+  hidden: { opacity: 0, y: 24 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+};
+
+const cardHover = "transition-all duration-300 hover:shadow-2xl hover:shadow-cyan-400/20 hover:-translate-y-1 hover:scale-[1.02]";
+const glowRing = "before:content-[''] before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-r before:from-cyan-400/30 before:via-fuchsia-400/30 before:to-sky-400/30 before:blur-xl before:-z-10";
+
 export default function App() {
   return (
-    <div className="relative font-sans bg-gradient-to-br from-blue-50 via-indigo-100 to-purple-100 min-h-screen overflow-x-hidden">
-      {/* Animated mesh/gradient SVG background */}
-      <svg className="absolute left-1/2 top-0 -translate-x-1/2 z-0 w-full h-[900px] pointer-events-none select-none" aria-hidden="true">
-        <defs>
-          <radialGradient id="g1" cx="50%" cy="50%" r="80%">
-            <stop stopColor="#60A5FA" offset="0%" />
-            <stop stopColor="#A78BFA" offset="100%" />
-          </radialGradient>
-        </defs>
-        <ellipse cx="50%" cy="30%" rx="900" ry="230" fill="url(#g1)" opacity=".16" />
-        <ellipse cx="16%" cy="55%" rx="185" ry="100" fill="#8b5cf668" opacity=".19" />
-        <ellipse cx="87%" cy="38%" rx="180" ry="90" fill="#38bdf85e" opacity=".14" />
-      </svg>
-
-      {/* NavBar */}
-      <nav className="fixed left-1/2 z-40 -translate-x-1/2 top-5 px-8 py-2 flex gap-8 glass items-center border border-white/25">
-        <span className="font-bold text-primary text-2xl tracking-tight">CV</span>
-        <div className="hidden md:flex gap-4">
-          {["About", "Skills", "Projects", "Contact"].map((it) => (
-            <a key={it} href={`#${it.toLowerCase()}`} className="text-zinc-800 hover:text-primary font-semibold">{it}</a>
-          ))}
-        </div>
-      </nav>
-
-      {/* HERO */}
-      <section className="section flex-col items-center justify-center text-center min-h-[85vh]" id="home">
-        <motion.div className="glass p-10 sm:p-14 mt-20 max-w-xl relative z-10 flex flex-col items-center gap-7"
-          initial={{ y: 42, opacity: 0 }} animate={{ y: 0, opacity: 1, transition: { delay: 0.13, duration: 0.88 } }}>
-          <img src="https://ui-avatars.com/api/?name=Clement+VSC&background=60A5FA&color=fff&size=160" alt="Avatar" className="rounded-full border-8 border-purple-300 shadow-xl mb-1" />
-          <motion.h1 className="text-4xl md:text-6xl font-bold text-primary bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent"
-            initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0, transition: { delay: 0.25 } }}>
-            👋 Hi, I'm Clement
-          </motion.h1>
-          <p className="text-lg text-zinc-700">Cloud & Web Engineer · Fan of beautiful glassy UI, security, and collaborative dev.</p>
-          <div className="flex gap-4 mt-2">
-            <a href="#projects" className="px-6 py-2 bg-gradient-to-r from-blue-400 to-purple-400 text-white font-semibold rounded-full shadow hover:scale-105 transition">See Projects</a>
-            <a href="#contact" className="px-6 py-2 bg-white/40 text-primary font-semibold rounded-full border border-primary hover:bg-primary hover:text-white transition">Contact</a>
-          </div>
-        </motion.div>
-      </section>
-
-      {/* ABOUT */}
-      <section id="about" className="section !pt-0">
-        <motion.div className="glass max-w-2xl mx-auto text-center border border-white/20 px-10 py-10"
-          initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.11, duration: 0.74 }}>
-          <h2 className="text-3xl font-bold text-purple-500 mb-1">About Me</h2>
-          <p className="text-gray-700 text-lg mb-3">Engineer by training, designer at heart. I build digital experiences with a focus on aesthetics, accessibility, and performance.<br /><span className="font-bold text-purple-500">Cloud, Security & Glassmorphism fan.</span></p>
-          <div className="flex flex-col gap-1 text-zinc-600 mt-5">
-            <span>👨‍🎓 B.Tech IT, PG: Cloud & Cybersecurity, Toronto</span>
-            <span>💻 Experience: React/TS, Node, Cloud, LLM/AI, Security</span>
-            <span>✨ Loves: UI polish, public demos, fast iteration, teamwork</span>
-          </div>
-        </motion.div>
-      </section>
-
-      {/* SKILLS */}
-      <section id="skills" className="section">
-        <motion.h2 className="text-3xl font-bold text-purple-500 mb-10 text-center"
-          initial={{ opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: .75 }}>Skills & Tools</motion.h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5 max-w-3xl mx-auto">
-          {skills.map(({ label, iconLib, iconName, color }) => {
-            const IconComponent = iconLib === "fa" ? FaIcons[iconName] : SiIcons[iconName];
-            return (
-              <div key={label} className="flex flex-col items-center p-5 glass rounded-2xl gap-2 cursor-pointer hover:shadow-lg hover:scale-105 transition">
-                {IconComponent ? <IconComponent size={32} color={color} /> : null}
-                <span className="font-semibold mt-1 text-zinc-800">{label}</span>
+    <div className="relative min-h-screen bg-slate-950 text-slate-100 overflow-x-hidden">
+      {/* Hero */}
+      <section className="relative isolate">
+        <GradientMesh id="hero" className="opacity-60" />
+        <div className="mx-auto max-w-6xl px-6 pt-24 pb-16">
+          <motion.div initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }} variants={sectionVariants} className="flex flex-col items-center text-center gap-6">
+            <div className="relative">
+              <div className={`mx-auto h-36 w-36 rounded-full ring-2 ring-white/10 shadow-2xl shadow-cyan-500/10 overflow-hidden ${glowRing}`}>
+                <img src="https://avatars.githubusercontent.com/u/13204265?v=4" alt="Avatar" className="h-full w-full object-cover" />
               </div>
-            );
-          })}
+            </div>
+            <h1 className="text-4xl md:text-6xl font-bold tracking-tight">Clément – Modern Web Engineer</h1>
+            <p className="max-w-2xl text-slate-300">I build fast, delightful web apps with TypeScript, React, Next.js, and cloud-native backends.</p>
+            <div className="flex gap-3">
+              <a href="#projects" className="group relative inline-flex items-center gap-2 rounded-xl bg-cyan-500 px-5 py-3 font-semibold text-slate-900 shadow-xl shadow-cyan-500/30 transition-all hover:shadow-2xl hover:shadow-cyan-400/50">
+                <span className="absolute inset-0 rounded-xl bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <span className="relative">View Projects</span>
+                <motion.span className="relative" animate={{ scale: [1, 1.05, 1] }} transition={{ duration: 1.6, repeat: Infinity }}>
+                  <FaIcons.FaArrowRight />
+                </motion.span>
+              </a>
+              <a href="#contact" className="group relative inline-flex items-center gap-2 rounded-xl border border-white/15 px-5 py-3 font-semibold text-white/90 backdrop-blur-md bg-white/5 shadow-xl hover:bg-white/10 transition-all">
+                <span className="absolute inset-0 rounded-xl bg-cyan-400/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <span className="relative">Contact</span>
+                <motion.span className="relative" animate={{ scale: [1, 1.07, 1] }} transition={{ duration: 1.8, repeat: Infinity }}>
+                  <FaIcons.FaPaperPlane />
+                </motion.span>
+              </a>
+            </div>
+            <div className="flex gap-4 pt-2">
+              {socialLinks.map((s) => (
+                <a key={s.label} aria-label={s.label} href={s.href} className="text-xl text-white/80 hover:text-white transition-transform hover:-translate-y-0.5">
+                  {s.icon}
+                </a>
+              ))}
+            </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* PROJECTS */}
-      <section id="projects" className="section">
-        <motion.h2 className="text-3xl font-bold text-purple-500 mb-10 text-center"
-          initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: .75 }}>Featured Projects</motion.h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-9 max-w-6xl mx-auto">
-          {projects.map(({ title, desc, tech, img, gh, live }, i) => (
-            <motion.div key={title}
-              className="glass rounded-3xl flex flex-col shadow-xl border border-purple-400/15 hover:shadow-purple-200 transition overflow-hidden hover:scale-[1.04]"
-              initial={{ opacity: 0, y: 26 }} whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }} transition={{ delay: 0.1 + i * 0.08 }}>
-              <img src={img} alt={title} className="w-full h-48 object-cover rounded-t-3xl" />
-              <div className="p-5 flex flex-col flex-1">
-                <h3 className="text-lg font-bold mb-1 text-zinc-800">{title}</h3>
-                <p className="text-zinc-600 text-sm mb-2 flex-1">{desc}</p>
-                <div className="flex flex-wrap gap-2 mb-1 mt-1">
-                  {tech.map(t => <span className="bg-purple-500/90 text-white px-2 py-1 rounded text-xs" key={t}>{t}</span>)}
+      {/* Skills */}
+      <section id="skills" className="relative">
+        <div className="mx-auto max-w-6xl px-6 py-16">
+          <motion.h2 initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }} variants={sectionVariants} className="text-2xl md:text-3xl font-semibold mb-8">Skills</motion.h2>
+          <motion.div initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }} variants={{ hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.06 } } }} className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            {skills.map((s) => (
+              <motion.div key={s.label} variants={{ hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0 } }} className={`relative rounded-2xl border border-white/10 bg-white/5 backdrop-blur-lg p-4 ${cardHover}`}>
+                <div className="flex items-center gap-3">
+                  {iconFromSkill(s)}
+                  <span className="font-medium" style={{ color: s.color }}>{s.label}</span>
                 </div>
-                <div className="mt-2 flex gap-3">
-                  <a href={live} className="px-3 py-1 rounded-lg bg-gradient-to-r from-blue-400 to-purple-400 text-white font-medium shadow hover:scale-105 transition" target="_blank" rel="noopener">Live</a>
-                  <a href={gh} className="px-3 py-1 rounded-lg bg-zinc-900/80 text-white font-medium shadow hover:scale-105 transition" target="_blank" rel="noopener">GitHub</a>
-                </div>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
       </section>
 
-      {/* CONTACT */}
-      <section id="contact" className="section">
-        <div className="glass max-w-lg mx-auto p-10 flex flex-col items-center gap-2 text-center border border-purple-500/15">
-          <h2 className="text-2xl text-purple-500 font-bold mb-2">Contact</h2>
-          <p className="mb-2 text-zinc-700">Let’s build something modern together!</p>
-          <a href="mailto:youremail@example.com" className="text-lg text-primary font-semibold underline mb-2">
-            youremail@example.com
-          </a>
-          <div className="flex gap-4 mt-6 justify-center">
-            {socialLinks.map((l, i) => (
-              <a key={i} href={l.href} aria-label={l.label} target="_blank" rel="noopener"
-                className="p-3 text-2xl rounded-full hover:bg-purple-400/15 transition">{l.icon}</a>
+      {/* Projects */}
+      <section id="projects" className="relative">
+        <div className="mx-auto max-w-6xl px-6 py-16">
+          <motion.h2 initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }} variants={sectionVariants} className="text-2xl md:text-3xl font-semibold mb-8">Projects</motion.h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {projects.map((p) => (
+              <motion.article key={p.title} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }} variants={sectionVariants} className={`relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl ${cardHover}`}>
+                <div className="aspect-video overflow-hidden">
+                  <img src={p.img} alt="project" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                </div>
+                <div className="p-5">
+                  <h3 className="text-xl font-semibold">{p.title}</h3>
+                  <p className="mt-1 text-white/70">{p.desc}</p>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {p.tech.map((t) => (
+                      <span key={t} className="rounded-full bg-white/10 px-3 py-1 text-xs text-white/80">{t}</span>
+                    ))}
+                  </div>
+                  <div className="mt-4 flex gap-3">
+                    <a href={p.gh} className="text-cyan-300 hover:text-cyan-200">Code</a>
+                    <a href={p.live} className="text-cyan-300 hover:text-cyan-200">Live</a>
+                  </div>
+                </div>
+              </motion.article>
             ))}
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="py-6 text-center text-gray-500 text-xs">
-        © {new Date().getFullYear()} Clement VSC • Built with React, Tailwind & Framer Motion
+      <footer className="relative mt-20 border-t border-white/10 bg-slate-950/60">
+        <GradientMesh id="footer" className="opacity-40" />
+        <div className="mx-auto max-w-6xl px-6 py-16">
+          <motion.p initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }} variants={sectionVariants} className="text-center text-white/60">
+            © {new Date().getFullYear()} Clément. Built with Next.js, React, and ❤️
+          </motion.p>
+        </div>
       </footer>
     </div>
   );
