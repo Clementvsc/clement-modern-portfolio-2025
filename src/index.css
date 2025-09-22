@@ -4,10 +4,24 @@
 @tailwind utilities;
 
 /* Modern glass and spacing */
-body { @apply min-h-screen font-sans bg-gradient-to-br from-blue-50 via-indigo-100 to-purple-100; }
+body {
+  @apply min-h-screen font-sans bg-gradient-to-br from-blue-50 via-indigo-100 to-purple-100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .glass {
   @apply bg-white/20 backdrop-blur-lg border border-white/30 shadow-2xl rounded-3xl;
 }
+
 .section {
-  @apply px-4 py-20 sm:py-28 flex flex-col items-center;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  @apply py-20 sm:py-28;
 }
