@@ -26,6 +26,22 @@ const skills = [
   { label: "TailwindCSS",  iconLib: "si", iconName: "SiTailwindcss",  color: "#36B7F0" },
   { label: "Framer Motion",iconLib: "si", iconName: "SiFramer",       color: "#F56CAC" },
 ];
+<section id="skills" className="py-16">
+  <h2 className="text-3xl font-bold text-purple-500 mb-10 text-center">
+    Skills & Tools
+  </h2>
+  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5 max-w-3xl mx-auto">
+    {skills.map(({ label, iconLib, iconName, color }) => {
+      const IconComponent = iconLib === "fa" ? FaIcons[iconName] : SiIcons[iconName];
+      return (
+        <div key={label} className="flex flex-col items-center p-5 glass rounded-2xl gap-2 cursor-pointer">
+          {IconComponent ? <IconComponent size={28} color={color} /> : null}
+          <span className="font-semibold mt-1 text-zinc-800">{label}</span>
+        </div>
+      );
+    })}
+  </div>
+</section>
 
 
 const projects = [
