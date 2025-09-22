@@ -1,15 +1,13 @@
-/* Import Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=JetBrains+Mono:wght@100;200;300;400;500;600;700;800&display=swap');
-
-/* Tailwind CSS directives */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* You can add custom CSS below */
-body {
-  @apply min-h-screen font-sans;
-}
+/* Modern glass and spacing */
+body { @apply min-h-screen font-sans bg-gradient-to-br from-blue-50 via-indigo-100 to-purple-100; }
 .glass {
-  @apply bg-white/20 backdrop-blur-lg rounded-2xl border border-white/30 shadow-xl;
+  @apply bg-white/20 backdrop-blur-lg border border-white/30 shadow-2xl rounded-3xl;
+}
+.section {
+  @apply px-4 py-20 sm:py-28 flex flex-col items-center;
 }
